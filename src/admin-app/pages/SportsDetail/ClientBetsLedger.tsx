@@ -93,7 +93,7 @@ const ClientBetsLedger = () => {
 
 
   React.useEffect(() => {
-    accountService.matchdetail2().then((res: AxiosResponse) => {
+    accountService.matchdetail2(maid).then((res: AxiosResponse) => {
       // //console.log(res, "marketffffff data");
       const allms = res.data.data.matches;
 

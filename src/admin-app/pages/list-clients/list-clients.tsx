@@ -498,33 +498,30 @@ const ListClients = () => {
   );
 
   const mainBalance = (row: any) => {
-    // const creditRef = row?.creditRefrences || 0;
-    const clientpl = row.balance?.profitLoss || 0;
-    const creditRef = row?.balance?.balance || 0;
+  const clientpl = row.balance?.profitLoss || 0;
+  const creditRef = row?.balance?.balance || 0;
 
-    // return (parseFloat(creditRef) + +parseFloat(clientpl))?.toFixed(2);
-    return parseFloat(creditRef);
-  };
+  const value = parseFloat(creditRef);
+  return Math.max(0, value);
+};
 
   const mainBalanceUser = (row: any) => {
-    // const creditRef = row?.creditRefrences || 0;
-    console.log(row, "row balance");
-    const clientpl = row.balance?.profitLoss || 0;
-    // const creditRef = row?.balance?.balance + row?.balance?.commision || 0;
-    const creditRef: any = row?.balance?.balance - row?.balance?.exposer;
+  const clientpl = row.balance?.profitLoss || 0;
+  const creditRef: any = row?.balance?.balance - row?.balance?.exposer;
 
-    // return (parseFloat(creditRef) + +parseFloat(clientpl))?.toFixed(2);
-    return parseFloat(creditRef);
-  };
+  const value = parseFloat(creditRef);
+  return Math.max(0, value);
+};
 
   const mainBalancechild = (row: any) => {
     const creditRef = row?.creditRefrences || 0;
     // const clientpl = row.balance?.profitLoss || 0;
     const creditb = row?.balance?.balance || 0;
     const profitloss = row?.balance?.profitLoss || 0;
-
+   const value = parseFloat(row.childBalance);
+    return Math.max(0, value);
     // return (parseFloat(creditRef) + parseFloat(profitloss) - +parseFloat(creditb))?.toFixed(2);
-    return parseFloat(row.childBalance);
+    // return parseFloat(row.childBalance);
   };
 
   /* Checkbox functionality */
