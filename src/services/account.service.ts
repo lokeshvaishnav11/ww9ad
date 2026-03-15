@@ -16,7 +16,7 @@ class AccountService {
   matchdetail(page:any,limit:any,) {
     return api.get(`matchdetail?page=${page}&limit=${limit}`);
   }
-  matchdetail2(mid?: string) {
+  matchdetail2(mid?: any) {
   return api.get(`matchdetail-two${mid ? `?mid=${mid}` : ""}`);
 }
   matkagamelist() {
