@@ -256,7 +256,7 @@ const CasinoPL = () => {
 
   useEffect(() => {
     betService.oneledger().then((res: AxiosResponse) => {
-      const items = res.data?.data?.[0] || [];
+      const items = res.data?.data?.[0].reverse() || [];
 
       const filteredItems = items.filter((item: any) =>
         item.narration?.includes("Matka Bet")

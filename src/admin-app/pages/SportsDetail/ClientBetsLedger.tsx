@@ -212,7 +212,7 @@ const ClientBetsLedger = () => {
 
   const handleDateFilter = async (isFilterApplied = false) => {
     try {
-      const res = await accountService.matchdetail2();
+      const res = await accountService.matchdetail2(maid);
       // //console.log(res, "maatchh commsion report");
 
       const allms = res.data.data.matches;
