@@ -1749,6 +1749,20 @@ const Header = () => {
                       </b>
                     </CustomLink>
                   </li>
+
+                   <li
+                    className={`nav-item border-b md:w-60 w-fit ${
+                      activeMenu === "Report" ? "bg-active" : ""
+                    } `}
+                  >
+                    <a href="https://olddata.11wickets.pro"
+                    >
+                      <LocalOfferIcon className="text-warning " />
+                      <b className="md:text-lg text-xs font-medium text-white">
+                      Old Data Link
+                      </b>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </nav>
