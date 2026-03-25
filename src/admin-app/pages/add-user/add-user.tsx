@@ -559,32 +559,58 @@ const AddUser = () => {
   }, [uplineParent]);
 
 
+  // const generatePassword = () => {
+  //   const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  //   const lower = "abcdefghijklmnopqrstuvwxyz";
+  //   const numbers = "0123456789";
+  //   const all = upper + lower + numbers;
+
+  //   let password =
+  //     upper[Math.floor(Math.random() * upper.length)] +
+  //     lower[Math.floor(Math.random() * lower.length)] +
+  //     numbers[Math.floor(Math.random() * numbers.length)];
+
+  //   for (let i = 3; i < 8; i++) {
+  //     password += all[Math.floor(Math.random() * all.length)];
+  //   }
+
+  //   let finalPassword = password
+  //     .split("")
+  //     .sort(() => Math.random() - 0.5)
+  //     .join("");
+
+  //   setValue("password", finalPassword, {
+  //     shouldDirty: true,
+  //     shouldValidate: true,
+  //   });
+  // };
+
+
   const generatePassword = () => {
-    const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lower = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    const all = upper + lower + numbers;
+  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
 
-    let password =
-      upper[Math.floor(Math.random() * upper.length)] +
-      lower[Math.floor(Math.random() * lower.length)] +
-      numbers[Math.floor(Math.random() * numbers.length)];
+  // 1 capital + 3 small
+  const firstPart =
+    upper[Math.floor(Math.random() * upper.length)] +
+    lower[Math.floor(Math.random() * lower.length)] +
+    lower[Math.floor(Math.random() * lower.length)] +
+    lower[Math.floor(Math.random() * lower.length)];
 
-    for (let i = 3; i < 8; i++) {
-      password += all[Math.floor(Math.random() * all.length)];
-    }
+  // 4 digits
+  let lastPart = "";
+  for (let i = 0; i < 4; i++) {
+    lastPart += numbers[Math.floor(Math.random() * numbers.length)];
+  }
 
-    let finalPassword = password
-      .split("")
-      .sort(() => Math.random() - 0.5)
-      .join("");
+  const finalPassword = firstPart + lastPart;
 
-    setValue("password", finalPassword, {
-      shouldDirty: true,
-      shouldValidate: true,
-    });
-  };
-
+  setValue("password", finalPassword, {
+    shouldDirty: true,
+    shouldValidate: true,
+  });
+};
 
   React.useEffect(() => {
     generatePassword();
