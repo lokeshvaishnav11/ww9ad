@@ -404,9 +404,9 @@ const Odds = () => {
     <>
       <MatchDetailMobile
         currentMatch={currentMatch}
-       fancies={
+   fancies={
   moment().isAfter(
-    moment(currentMatch?.matchDateTime).subtract(8, "hours")
+    moment(currentMatch?.matchDateTime).subtract(20, "minutes")
   )
     ? fancies
     : []
@@ -428,9 +428,9 @@ const Odds = () => {
     <>
       <MatchDetailMobile
         currentMatch={currentMatch}
-       fancies={
+     fancies={
   moment().isAfter(
-    moment(currentMatch?.matchDateTime).subtract(8, "hours")
+    moment(currentMatch?.matchDateTime).subtract(20, "minutes")
   )
     ? fancies
     : []
