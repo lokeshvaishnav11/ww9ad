@@ -1011,7 +1011,7 @@ const ListClients = () => {
                 </li>
               </ul> */}
               <div
-                style={{ overflowY: "scroll", paddingBottom: "5vh" }}
+                style={{ overflowY: "scroll", paddingBottom: "40vh" }}
                 className="table-responsive data-table "
                 ref={ref}
               >
@@ -1880,9 +1880,7 @@ const ListClients = () => {
                       })}
                   </tbody>
                 </table>
-             
-              </div>
-                 {users?.totalPages && users.totalPages > 1 && (
+                     {users?.totalPages && users.totalPages > 1 && (
   // <ReactPaginate
   //   pageCount={users.totalPages}
   //   onPageChange={handlePageClick}
@@ -1924,6 +1922,8 @@ const ListClients = () => {
   activeClassName="active"
 />
 )}
+              </div>
+         
               
             </div>
 
