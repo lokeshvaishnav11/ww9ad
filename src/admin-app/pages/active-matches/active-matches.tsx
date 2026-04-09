@@ -168,6 +168,7 @@ const ActiveMatches = () => {
                   <th>Action</th>
                   <th>Bet Limit</th>
                   <th>Manage Fancy</th>
+                   <th>Combine Fancy</th>
                   <th>Rollback</th>
                 </tr>
               </thead>
@@ -213,6 +214,12 @@ const ActiveMatches = () => {
                       <td>
                         <CustomLink to={`/active-fancies/${match.matchId}`}>
                           Manage Fancy
+                        </CustomLink>
+                      </td>
+
+                       <td>
+                        <CustomLink to={`/active-fancies/two/${match.matchId}`}>
+                          Combine Result
                         </CustomLink>
                       </td>
 

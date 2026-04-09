@@ -28,6 +28,7 @@ import NewRejectedBetsFinal from './pages/SportsDetail/NewRejectedBetsFinal'
 const ActiveMarkets = React.lazy(() => import('../admin-app/pages/active-matches/active-markets'))
 const ActiveMatches = React.lazy(() => import('../admin-app/pages/active-matches/active-matches'))
 const GetAllFancy = React.lazy(() => import('../admin-app/pages/active-matches/get-all-fancy'))
+const GetAllFancytwo = React.lazy(()=>import('../admin-app/pages/active-matches/combine-result'))
 const MatchesPage = React.lazy(() => import('../admin-app/pages/add-matches/matches'))
 const SeriesPage = React.lazy(() => import('../admin-app/pages/add-matches/series'))
 const SportsPage = React.lazy(() => import('../admin-app/pages/add-matches/sports'))
@@ -121,6 +122,7 @@ const AdminRoutes = () => {
                 { path: 'active-matches/:sportId/:matchType?', element: <ActiveMatches /> },
                 { path: 'active-markets/:matchId', element: <ActiveMarkets /> },
                 { path: 'active-fancies/:matchId', element: <GetAllFancy /> },
+                { path: 'active-fancies/two/:matchId', element: <GetAllFancytwo /> },
                 { path: 'messages', element: <Message /> },
               ]
               : []),
