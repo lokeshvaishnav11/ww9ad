@@ -1318,7 +1318,7 @@ const ListClients = () => {
                                   user._id && handleToggle(user._id)
                                 }
                               >
-                                <ArrowDropDownIcon className="size-2" />
+                               <ArrowDropDownIcon className="size-2" style={{fontSize:"44px"}} />
                               </button>
                               <div
                                 className={`actions-td ${
