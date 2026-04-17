@@ -255,7 +255,7 @@ const CasinoPL = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    betService.oneledger().then((res: AxiosResponse) => {
+    betService.oneledger({page:1}).then((res: AxiosResponse) => {
       const items = res.data?.data?.[0].reverse() || [];
 
       const filteredItems = items.filter((item: any) =>

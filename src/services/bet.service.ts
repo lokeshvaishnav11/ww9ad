@@ -60,12 +60,17 @@ class BetService {
   }
 
 
-  oneledger() {
-    return api.get("all-client-ledger/one");
+  oneledger(data:any) {
+    return api.get(`all-client-ledger/one?page=${data.page}`);
   }
 
+   oneledgernew() {
+    return api.get(`all-client-ledger/one/new`);
+  }
+
+
  newledger(){
-  return api.get("all-client-ledger/two");
+  return api.get("all-client-ledger/two/new");
  }
  
 

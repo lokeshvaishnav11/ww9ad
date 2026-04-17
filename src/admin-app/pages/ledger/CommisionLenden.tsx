@@ -28,7 +28,7 @@ const CommisionLenden: React.FC = () => {
   const [zoom, setZoom] = React.useState(1);
 
   React.useEffect(() => {
-    betService.oneledger().then((res: AxiosResponse<any>) => {
+    betService.oneledgernew().then((res: AxiosResponse<any>) => {
       //console.log(res, "dmbsdbh lena dena");
       const data = res.data.data;
       const processed = processCommissionTable(data);

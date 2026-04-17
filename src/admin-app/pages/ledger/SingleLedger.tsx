@@ -273,13 +273,10 @@ const AllClientLedger = () => {
   const fetchLedger = async () => {
   let res;
 
-  if (sendId) {
+
     // 🔥 pponeledger
     res = await betService.pponeledger(sendId);
-  } else {
-    // 🔥 oneledger
-    res = await betService.oneledger();
-  }
+ 
 
   const { lenaArray, denaArray,user } = res.data.data;
 
