@@ -64,6 +64,9 @@ class BetService {
     return api.get("all-client-ledger/one");
   }
 
+ newledger(){
+  return api.get("all-client-ledger/two");
+ }
  
 
   pponeledger(sendId: string | undefined) {

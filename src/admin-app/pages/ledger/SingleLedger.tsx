@@ -250,25 +250,53 @@ const AllClientLedger = () => {
 
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    if (!sendId) return;
-    betService
-      .pponeledger(sendId)
-      .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
-        const usert: any = res.data.data[2];
-        if (usert?.user?.role === "dl") {
-          return navigate(`/admin/list-clients/${usert.user.username}/user`, {
+  // React.useEffect(() => {
+  //   if (!sendId) return;
+  //   betService
+  //     .pponeledger(sendId)
+  //     .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
+  //       const usert: any = res.data.data[2];
+  //       if (usert?.user?.role === "dl") {
+  //         return navigate(`/admin/list-clients/${usert.user.username}/user`, {
+  //           replace: true,
+  //         });
+  //       }
+  //       ////console.log(usert.user.role, "role");
+  //       const { lenaArray, denaArray } = processLedgerData(res.data.data);
+  //       setLena(lenaArray);
+  //       setDena(denaArray);
+  //       // // console.log(res, "Processed ledger data 222");
+  //     });
+  // }, [sendId, navigate]);
+
+
+  const fetchLedger = async () => {
+  let res;
+
+  if (sendId) {
+    // 🔥 pponeledger
+    res = await betService.pponeledger(sendId);
+  } else {
+    // 🔥 oneledger
+    res = await betService.oneledger();
+  }
+
+  const { lenaArray, denaArray,user } = res.data.data;
+
+    if (user?.role === "dl") {
+          return navigate(`/admin/list-clients/${user.username}/user`, {
             replace: true,
           });
         }
-        ////console.log(usert.user.role, "role");
-        const { lenaArray, denaArray } = processLedgerData(res.data.data);
-        setLena(lenaArray);
-        setDena(denaArray);
-        // // console.log(res, "Processed ledger data 222");
-      });
-  }, [sendId, navigate]);
 
+  setLena(lenaArray || []);
+  setDena(denaArray || []);
+};
+
+React.useEffect(() => {
+ 
+  fetchLedger();
+}, [sendId]);
   return (
     <>
       <p className="text-center bg-secondary tx-12 text-white p-1">My Ledger</p>
@@ -489,3 +517,5 @@ const AllClientLedger = () => {
 };
 
 export default AllClientLedger;
+
+
