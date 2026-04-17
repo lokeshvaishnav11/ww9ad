@@ -449,9 +449,7 @@ const ClientLedger = () => {
     try {
       setLoading(true);
 
-      const res: AxiosResponse<any> = await betService.oneledger({
-        page: pageNumber,
-      });
+      const res: AxiosResponse<any> = await betService.oneledgernew();
 
       const allData = res.data?.data || [];
       const dataToUse =

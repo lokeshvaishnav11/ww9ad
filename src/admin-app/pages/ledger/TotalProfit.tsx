@@ -312,6 +312,7 @@ const TotalProfit = () => {
   const [page, setPage] = React.useState(1);
   const [hasMore, setHasMore] = React.useState(true);
   const [loading, setLoading] = React.useState(false);
+  const [totalBalance, setTotalBalance] = React.useState(0);
 
   //////////////////////////////////////////////////////
   // 🚀 FETCH DATA
@@ -320,12 +321,14 @@ const TotalProfit = () => {
     try {
       setLoading(true);
 
-      const res: AxiosResponse<any> = await betService.oneledger({
-        page: pageNumber,
-      });
+      const res: AxiosResponse<any> = await betService.oneledgernew();
 
       const allData = res.data?.data || [];
       const dataToUse = allData[0] || [];
+
+      const total = res.data?.data?.totalBalance || 0;
+
+setTotalBalance(total);
 
       // 🔥 append OR reset
       setTableData2((prev) =>
