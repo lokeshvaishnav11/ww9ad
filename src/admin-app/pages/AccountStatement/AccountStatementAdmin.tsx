@@ -486,7 +486,6 @@
 // export default AccountStatementAdmin;
 
 
-
 import moment from "moment";
 import React, { MouseEvent } from "react";
 import ReactPaginate from "react-paginate";
@@ -508,6 +507,8 @@ import { selectLoader } from "../../../redux/actions/common/commonSlice";
 import "./CommissionTable.css";
 import { useParams } from "react-router-dom";
 
+
+
 const AccountStatementAdmin = () => {
   const loadingState = useAppSelector(selectLoader);
   const myuser = useParams().name;
@@ -523,6 +524,7 @@ const AccountStatementAdmin = () => {
   );
 
   const [openBalance, setOpenBalance] = React.useState(0);
+  const [page, setPage] = React.useState(1);
 
   const [filterdata, setfilterdata] = React.useState<any>({
     startDate: "",
@@ -531,34 +533,28 @@ const AccountStatementAdmin = () => {
     userId: "",
   });
 
-  const [page, setPage] = React.useState(1);
-  const [pageBet, setPageBet] = React.useState(1);
+  // 🔥 FORMAT WITH PAGE OFFSET BALANCE FIX
+  const dataformat = (response: any, baseBalance: number, startIndex: number) => {
+    let closingbalance = baseBalance;
 
-  // 🔥 FORMAT FUNCTION (UNCHANGED)
-  const dataformat = (response: any, closingbalance: any) => {
-    const aryNewFormat: any = [];
+    return response.map((stmt: any, index: number) => {
+      closingbalance = closingbalance + stmt.amount;
 
-    response &&
-      response.map((stmt: any, index: number) => {
-        closingbalance = closingbalance + stmt.amount;
-
-        aryNewFormat.push({
-          _id: stmt._id,
-          sr_no: index + 1,
-          date: moment(stmt.createdAt).format(dateFormat),
-          credit: stmt.amount,
-          debit: stmt.amount,
-          closing: closingbalance.toFixed(2),
-          narration: stmt.narration,
-          type: stmt.type,
-          stmt: stmt,
-        });
-      });
-
-    return aryNewFormat;
+      return {
+        _id: stmt._id,
+        sr_no: startIndex + index + 1,
+        date: moment(stmt.createdAt).format(dateFormat),
+        credit: stmt.amount,
+        debit: stmt.amount,
+        closing: closingbalance.toFixed(2),
+        narration: stmt.narration,
+        type: stmt.type,
+        stmt: stmt,
+      };
+    });
   };
 
-  // 🔥 INITIAL DATE SET
+  // 🔥 INITIAL DATE
   React.useEffect(() => {
     const filterObj = filterdata;
     filterObj.startDate = moment().subtract(70, "days").format("YYYY-MM-DD");
@@ -566,33 +562,50 @@ const AccountStatementAdmin = () => {
     setfilterdata({ ...filterObj });
   }, []);
 
-  // 🔥 MAIN API CALL (FIXED)
-  const getAccountStmt = (pageNumber: number) => {
-    accountService
-      .getAccountList(pageNumber, filterdata)
-      .then((res) => {
-        const items = res?.data?.data?.items || [];
+  // 🔥 MAIN API
+const getAccountStmt = async (pageNumber: number) => {
+  try {
+    // 🔥 CURRENT PAGE
+    const res = await accountService.getAccountList(pageNumber, filterdata);
 
-        setCurrentItems(
-          dataformat(
-            items,
-            res?.data?.data?.openingBalance || 0
-          )
+    const items = res?.data?.data?.items || [];
+    const opening = res?.data?.data?.openingBalance || 0;
+    const total = res?.data?.data?.total || 0;
+
+    let baseBalance = opening;
+
+    // 🔥 FIX: LOOP THROUGH PREVIOUS PAGES
+    if (pageNumber > 1) {
+      let prevSum = 0;
+
+      for (let i = 1; i < pageNumber; i++) {
+        const prevRes = await accountService.getAccountList(i, filterdata);
+        const prevItems = prevRes?.data?.data?.items || [];
+
+        prevSum += prevItems.reduce(
+          (acc: number, curr: any) => acc + curr.amount,
+          0
         );
+      }
 
-        setOpenBalance(res?.data?.data?.openingBalance || 0);
+      baseBalance = opening + prevSum;
+    }
 
-        // 🔥 IMPORTANT (backend se total bhejna padega)
-        setPageCount(
-          Math.ceil((res?.data?.data?.total || 0) / itemsPerPage)
-        );
+    setCurrentItems(
+      dataformat(
+        items,
+        baseBalance,
+        (pageNumber - 1) * itemsPerPage
+      )
+    );
 
-        setPage(pageNumber);
-      })
-      .catch(() => {
-        toast.error("error");
-      });
-  };
+    setOpenBalance(opening);
+    setPage(pageNumber);
+    setPageCount(Math.ceil(total / itemsPerPage));
+  } catch {
+    toast.error("error");
+  }
+};
 
   // 🔥 SUBMIT
   const submitAccountStatement = () => {
@@ -604,7 +617,7 @@ const AccountStatementAdmin = () => {
     submitAccountStatement();
   };
 
-  // 🔥 PAGINATION CLICK (FIXED)
+  // 🔥 PAGINATION
   const handlePageClick = (event: any) => {
     const selectedPage = event.selected + 1;
     getAccountStmt(selectedPage);
@@ -614,10 +627,6 @@ const AccountStatementAdmin = () => {
     const filterObj = filterdata;
     filterObj[event.target.name] = event.target.value;
     setfilterdata({ ...filterObj });
-  };
-
-  const onSuggestionsFetchRequested = ({ value }: any) => {
-    return userService.getUserListSuggestion({ username: value });
   };
 
   React.useEffect(() => {
@@ -632,14 +641,14 @@ const AccountStatementAdmin = () => {
     }
   }, [filterdata.userId]);
 
-  // 🔥 BET MODAL (UNCHANGED)
+  // 🔥 BET MODAL (RESTORED)
   const handlePageClickBets = (event: any) => {
     getBetsData(selectedStmt, event.selected + 1);
   };
 
   React.useEffect(() => {
-    if (isOpen) getBetsData(selectedStmt, pageBet);
-  }, [selectedStmt, pageBet, isOpen]);
+    if (isOpen) getBetsData(selectedStmt, 1);
+  }, [selectedStmt]);
 
   const getBetsData = (stmt: AccoutStatement, pageNumber: number) => {
     const betIds: any = stmt?.allBets?.map(({ betId }: any) => betId);
@@ -650,7 +659,6 @@ const AccountStatementAdmin = () => {
         .then((res: AxiosResponse) => {
           setIsOpen(true);
           setBetHistory(res.data.data);
-          setPageBet(pageNumber);
         });
     }
   };
@@ -660,19 +668,13 @@ const AccountStatementAdmin = () => {
     stmt: AccoutStatement
   ) => {
     e.preventDefault();
-    setBetHistory({});
     setSelectedStmt(stmt);
-    setPageBet(1);
     setIsOpen(true);
   };
 
-  // 🔥 TABLE (UNCHANGED LOGIC)
+  // 🔥 TABLE
   const getAcHtml = () => {
-    let closingbalance: number = openBalance;
-
     return currentItems.map((stmt: any, index: number) => {
-      closingbalance = closingbalance + stmt.credit;
-
       return (
         <tr key={`${stmt._id}${index}`}>
           <td>{stmt.sr_no}</td>
@@ -756,7 +758,7 @@ const AccountStatementAdmin = () => {
             </tbody>
           </table>
 
-          {/* 🔥 PAGINATION */}
+          {/* 🔥 PAGINATION BACK */}
           <ReactPaginate
             breakLabel="..."
             nextLabel="Next"
@@ -769,23 +771,18 @@ const AccountStatementAdmin = () => {
           />
         </div>
       </div>
-        <ReactModal
+
+      {/* 🔥 BET MODAL BACK */}
+      <ReactModal
         isOpen={isOpen}
-        onAfterClose={() => setIsOpen(false)}
-        onRequestClose={(e: any) => {
-          setIsOpen(false);
-        }}
-        contentLabel="Set Max Bet Limit"
+        onRequestClose={() => setIsOpen(false)}
         className={"col-md-12"}
         ariaHideApp={false}
       >
         <div className="modal-content">
           <div className="modal-header">
             <h5>Bets</h5>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="close float-right"
-            >
+            <button onClick={() => setIsOpen(false)} className="close">
               <i className="fa fa-times-circle"></i>
             </button>
           </div>
@@ -804,5 +801,4 @@ const AccountStatementAdmin = () => {
     </>
   );
 };
-
 export default AccountStatementAdmin;
