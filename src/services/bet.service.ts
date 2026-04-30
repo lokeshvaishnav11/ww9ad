@@ -103,6 +103,9 @@ class BetService {
   deleteCurrentBet(id: string) {
     return api.delete(`delete-current-bet/${id}`);
   }
+   updateBet(data:any) {
+    return api.post(`/update-current-bet`,data);
+  }
   betLock(data: any) {
     return api.post(`bet-lock`, data);
   }
