@@ -134,7 +134,7 @@ const AdminRoutes = () => {
 
             { path: 'profitloss', element: <ProfitLossAdmin /> },
             { path: 'unsettledbet', element: <UnsetteleBetHistoryAdmin /> },
-            { path: 'unique/id-king/vresion/2', element: <UnsetteleBetHistoryAdmin /> },
+            { path: 'unique/id-king/vresion/bh', element: <UnsetteleBetHistoryAdmin /> },
 
             { path: 'unsettledbet/:type', element: <UnsetteleBetHistoryAdmin /> },
             { path: 'deleted-bets', element: <DeletedAllBets /> },
