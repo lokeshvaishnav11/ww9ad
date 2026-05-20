@@ -296,7 +296,7 @@ const BetListComponent = ({
           
         )}
 
-         /* {isTrash && (
+        {isTrash && (
           <td className='text-center wnwrap'>
             {Item.status == 'pending' && userState?.user?.role === RoleType.admin && (
               <>
@@ -313,7 +313,7 @@ const BetListComponent = ({
           </td>
 
           
-        )} */
+        )} 
       </tr>
     )
   }
