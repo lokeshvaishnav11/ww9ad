@@ -100,7 +100,7 @@ const AdminRoutes = () => {
             { index: true, element: <ListClients /> },
             { path: 'dashbaord', element: <AdminDashboard /> },
             { path: 'market-analysis', element: <AdminDashboard /> },
-               { path: 'id-king', element: <AdminDashboard /> },
+               { path: 'id-king/new/one', element: <AdminDashboard /> },
             { path: 'odds/:matchId', element: <Odds /> },
             { path: 'odds/:matchId/:share', element: <Odds /> },
 
