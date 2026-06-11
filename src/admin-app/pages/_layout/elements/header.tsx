@@ -130,7 +130,7 @@
 //         <div className='header-bottom'>
 //           <div className='container-fluid'>
 //             <CustomLink to={'/'} className='logo'>
-//               <img src='/imgs/logo.png' />
+//               <img src='/imgs/9xh.png' />
 //             </CustomLink>
 //             <div className='side-menu-button' onClick={toggleDrawer}>
 //               <div className='bar1' />
@@ -313,7 +313,7 @@
 //       </header>
 //       <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
 //         <div className='drawer-header'>
-//           <img src='/imgs/logo.png' className='wd-100' />
+//           <img src='/imgs/9xh.png' className='wd-100' />
 //         </div>
 //         <div className='drawer-content'>
 //           <Tree
@@ -739,7 +739,7 @@ const Header = () => {
             style={{ background: "black" }}
           >
             {/* <img className="" src="/9x.png" /> */}
-            <img className="" style={{ width: "500px" }} src="/imgs/logo.png" />
+            <img className="" style={{ width: "500px" }} src="/imgs/9xh.png" />
           </CustomLink>
 
           <div className="">
@@ -1755,7 +1755,7 @@ const Header = () => {
                       activeMenu === "Report" ? "bg-active" : ""
                     } `}
                   >
-                    <a href="https://olddata.11wickets.pro"
+                    <a href="https://olddata.9xpro.pro"
                     >
                       <LocalOfferIcon className="text-warning " />
                       <b className="md:text-lg text-xs font-medium text-white">
@@ -1774,7 +1774,7 @@ const Header = () => {
 
       {/* <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
         <div className='drawer-header'>
-          <img src='/imgs/logo.png' className='wd-100' />
+          <img src='/imgs/9xh.png' className='wd-100' />
         </div>
         <div className='drawer-content'>
           <Tree
